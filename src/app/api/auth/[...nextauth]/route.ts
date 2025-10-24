@@ -1,5 +1,6 @@
+//route.ts
 import NextAuth from "next-auth";
-import { authOptions } from "@/lib/auth"; // Pastikan baris ini persis seperti ini
+import { authOptions } from "../../../../lib/auth"; 
 
 const handler = NextAuth(authOptions);
 

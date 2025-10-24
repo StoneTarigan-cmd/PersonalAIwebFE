@@ -27,7 +27,7 @@ const LoginForm = () => {
     if (result?.error) {
       setError('Email atau password tidak valid');
     } else {
-      window.location.href = '/dashboard';
+      window.location.href = '/Dashboard';
     }
     setIsLoading(false);
   };
@@ -62,7 +62,7 @@ const LoginForm = () => {
         <div>
           <input
             type="email"
-            placeholder="Username or Email" // <-- TEKS DIPERBARUI
+            placeholder="Email" // <-- TEKS DIPERBARUI
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required

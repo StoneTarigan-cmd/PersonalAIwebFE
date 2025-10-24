@@ -19,39 +19,32 @@ const SignUpForm = () => {
   const router = useRouter();
 
   const handleSignUp = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError('');
+  e.preventDefault();
+  setIsLoading(true);
+  setError('');
 
-    try {
-      const response = await fetch('/api/signup', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, phone: phone || '', password }),
-      });
+  try {
+    const response = await fetch('/api/signup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, phone: phone || '', password }),
+    });
 
-      if (!response.ok) {
-        throw new Error('Something went wrong during sign up.');
-      }
+    const data = await response.json(); // Parsing untuk mendapatkan pesan error
 
-      const result = await signIn('credentials', {
-        redirect: false,
-        email,
-        password,
-      });
-
-      if (result?.error) {
-        setError('Account created, but failed to log in. Please try logging in manually.');
-      } else {
-        router.push('/dashboard');
-      }
-
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setIsLoading(false);
+    if (!response.ok) {
+      throw new Error(data.message || 'Something went wrong during sign up.');
     }
-  };
+
+    // Hanya arahkan ke halaman verifikasi. Jangan lakukan apa-apa lagi.
+    router.push(`/verify-account?email=${encodeURIComponent(email)}`);
+
+  } catch (err: any) {
+    setError(err.message);
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   return (
     <div className="w-full max-w-md p-8 space-y-6 bg-white">
