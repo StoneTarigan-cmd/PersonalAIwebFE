@@ -4,13 +4,13 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const menuItems = [
-  { icon: '📦', text: 'App', href: '/dashboard' },
+  // { icon: '📦', text: 'App', href: '/dashboard' },
   { icon: '📊', text: 'Dashboard', href: '/dashboard' },
   { icon: '📧', text: 'Email', href: '/dashboard/email' },
   { icon: '💬', text: 'Chat', href: '/dashboard/chat' },
-  { icon: '👥', text: 'Contacts', href: '/dashboard/contacts' },
+  // { icon: '👥', text: 'Contacts', href: '/dashboard/contacts' },
   { icon: '📝', text: 'Notes', href: '/dashboard/notes' },
-  { icon: '📅', text: 'Calendar', href: '/dashboard/calendar' },
+  // { icon: '📅', text: 'Calendar', href: '/dashboard/calendar' },
   { icon: '⚙️', text: 'Settings', href: '/dashboard/settings' },
 ];
 

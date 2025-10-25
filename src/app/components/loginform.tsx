@@ -15,6 +15,7 @@ const LoginForm = () => {
 
   const handleCredentialsSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log('Login process started...'); // DEBUG 1
     setIsLoading(true);
     setError('');
 
@@ -24,11 +25,16 @@ const LoginForm = () => {
       password,
     });
 
+    console.log('SignIn result:', result); // DEBUG 2
+
     if (result?.error) {
+      console.log('Login failed, setting error.'); // DEBUG 3
       setError('Email atau password tidak valid');
     } else {
+      console.log('Login successful, redirecting.'); // DEBUG 4
       window.location.href = '/Dashboard';
     }
+    console.log('Process finished, setting loading to false.'); // DEBUG 5
     setIsLoading(false);
   };
 
