@@ -1,4 +1,4 @@
-import LoginForm from '../app/components/loginform'; // Menggunakan jalur absolut yang lebih aman
+import LoginForm from '../components/loginform'; // Menggunakan jalur absolut yang lebih aman
 import Image from 'next/image';
 
 export default function Home() {

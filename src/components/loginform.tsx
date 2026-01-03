@@ -29,7 +29,7 @@ const LoginForm = () => {
 
     if (result?.error) {
       console.log('Login failed, setting error.'); // DEBUG 3
-      setError('Email atau password tidak valid');
+      setError('Invalid email or password. Please try again.');
     } else {
       console.log('Login successful, redirecting.'); // DEBUG 4
       window.location.href = '/Dashboard';

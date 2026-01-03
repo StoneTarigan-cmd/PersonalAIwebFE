@@ -1,8 +1,6 @@
 // src/lib/auth.ts
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { supabase } from "./supabase";
-import bcrypt from "bcryptjs";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -13,42 +11,48 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials, req) {
-        if (!credentials?.email || !credentials?.password) {
+        console.log("NextAuth authorize function called.");
+        console.log("Credentials:", credentials);
+
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+        console.log("Fetching to:", `${apiUrl}/api/auth/login`);
+
+        if (!apiUrl) {
+          console.error("NEXT_PUBLIC_API_URL is not defined in the server environment.");
           return null;
         }
 
-        // Cari pengguna di Supabase berdasarkan email
-        const { data: user, error } = await supabase
-          .from('users')
-          .select('*')
-          .eq('email', credentials.email)
-          .single(); // .single() untuk mendapatkan satu objek
+        try {
+          const res = await fetch(`${apiUrl}/api/auth/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              email: credentials?.email,
+              password: credentials?.password,
+            }),
+          });
 
-        if (error || !user) {
-          return null; // Pengguna tidak ditemukan
+          console.log("Backend response status:", res.status);
+          console.log("Backend response ok:", res.ok);
+
+          if (!res.ok) {
+            const errorData = await res.json();
+            console.error("Backend login failed:", errorData);
+            throw new Error(errorData.message || 'Login failed');
+          }
+
+          const data = await res.json();
+          console.log("Backend login success:", data);
+
+          if (data.user) {
+            return data.user;
+          } else {
+            return null;
+          }
+        } catch (error: any) {
+          console.error("Error in authorize function:", error.message);
+          throw new Error(error.message);
         }
-
-        // Bandingkan password yang dimasukkan dengan password yang di-hash
-        const isPasswordValid = await bcrypt.compare(credentials.password, user.password);
-
-        if (!isPasswordValid) {
-          return null; // Password tidak cocok
-        }
-
-        // --- TAMBAHKAN PENGECEKAN VERIFIKASI ---
-        if (!user.is_verified) {
-          // Anda bisa melempar error yang lebih spesifik di sini jika mau
-          // tapi untuk saat ini, kita cukup hentikan login.
-          return null; 
-        }
-        // --- AKHIR PENGECEKAN ---
-
-        // Jika berhasil, kembalikan data user
-        return {
-          id: user.id.toString(),
-          name: user.name,
-          email: user.email,
-        };
       },
     }),
   ],
@@ -64,7 +68,7 @@ export const authOptions: NextAuthOptions = {
     },
     async session({ session, token }) {
       if (session.user && token.id) {
-        session.user.id = token.id;
+        session.user.id = token.id as string;
       }
       return session;
     },

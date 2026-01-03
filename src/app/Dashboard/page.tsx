@@ -1,13 +1,13 @@
 "use client";
 
-import Header from "../components/Header";
-import ProgressCard from "../components/ui/ProgressCard"; // Import komponen baru
-import StatCard from "../components/ui/StatCard";
-import Calendar from "../components/Calendar";
-import TasksList from "../components/TasksList";
-import ResourceActivity from "../components/ResourceActivity";
-import UpcomingEventsCard from "../components/UpcomingEventsCard";
-import TaskListModal from "../components/TaskListModal"; // Import modal baru
+import Header from "../../components/Header";
+import ProgressCard from "../../components/ui/ProgressCard"; // Import komponen baru
+import StatCard from "../../components/ui/StatCard";
+import Calendar from "../../components/Calendar";
+import TasksList from "../../components/TasksList";
+import ResourceActivity from "../../components/ResourceActivity";
+import UpcomingEventsCard from "../../components/UpcomingEventsCard";
+import TaskListModal from "../../components/TaskListModal"; // Import modal baru
 import { useState, useEffect } from 'react'; // Tambahkan useEffect
 
 // --- MOCK DATA TASKS ---

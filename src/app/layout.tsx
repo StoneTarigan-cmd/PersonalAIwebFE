@@ -1,4 +1,4 @@
-import Providers from "./components/Providers"; // Impor komponen Providers baru
+import Providers from "../components/Providers"; // Impor komponen Providers baru
 import "./globals.css";
 
 export const metadata = {
